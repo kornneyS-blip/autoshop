@@ -1431,7 +1431,7 @@
                             <div class="category-checkbox-item"><input type="checkbox" id="cat-masla" value="Масла и жидкости"><label for="cat-masla">Масла и жидкости</label></div>
                             <div class="category-checkbox-item"><input type="checkbox" id="cat-filtry" value="Фильтры"><label for="cat-filtry">Фильтры</label></div>
                             <div class="category-checkbox-item"><input type="checkbox" id="cat-tormoza" value="Тормозная система"><label for="cat-tormoza">Тормозная система</label></div>
-                            <div class="category-checkbox-item"><input type="checkbox" id="cat-osveshchenie" value="Освещение"><label for="cat-osveshchenie">Освещение</label></div>
+                            <div class="category-checkbox-item"><input type="checkbox" id="cat-osveshchenie" value="Оснещение"><label for="cat-osveshchenie">Оснещение</label></div>
                             <div class="category-checkbox-item"><input type="checkbox" id="cat-akkumulyatory" value="Аккумуляторы"><label for="cat-akkumulyatory">Аккумуляторы</label></div>
                             <div class="category-checkbox-item"><input type="checkbox" id="cat-dvigatel" value="Двигатель"><label for="cat-dvigatel">Двигатель</label></div>
                             <div class="category-checkbox-item"><input type="checkbox" id="cat-hodovaya" value="Ходовая часть"><label for="cat-hodovaya">Ходовая часть</label></div>
@@ -1552,7 +1552,7 @@
                 return this.products.filter(p => p.brand === productBrand);
             }
             getAllCategories() {
-                return ['Масла и жидкости', 'Фильтры', 'Тормозная система', 'Освещение', 'Аккумуляторы', 'Двигатель', 'Ходовая часть', 'Электрика', 'Кузовные детали', 'Инструменты'];
+                return ['Масла и жидкости', 'Фильтры', 'Тормозная система', 'Оснащение', 'Аккумуляторы', 'Двигатель', 'Ходовая часть', 'Электрика', 'Кузовные детали', 'Инструменты'];
             }
             getAllBrands() {
                 return ['Toyota', 'Volkswagen', 'BMW', 'Mercedes', 'Lada', 'Audi', 'Honda', 'Nissan', 'Ford', 'Chevrolet'];
@@ -1673,8 +1673,8 @@
                 { name: 'Комплект поршневых колец 1.6', price: 3200, brand: 'Mahle', article: 'MAH-PK-01', description: 'Комплект поршневых колец для двигателя 1.6 л', image: 'https://via.placeholder.com/300x200?text=Piston+Rings', categories: ['Двигатель'], carBrands: ['Toyota', 'Honda'], stock: 12 },
                 // Шаровая опора для BMW (Ходовая часть + BMW + Lemförder)
                 { name: 'Шаровая опора передняя BMW E90', price: 1800, brand: 'Lemförder', article: 'LEM-34-12', description: 'Шаровая опора передней подвески для BMW E90', image: 'https://via.placeholder.com/300x200?text=Ball+Joint', categories: ['Ходовая часть'], carBrands: ['BMW'], stock: 20 },
-                // Ксенон для всех марок (Освещение + все марки + Osram)
-                { name: 'Лампа ксеноновая D2S 6000K', price: 2400, brand: 'Osram', article: 'OSR-D2S', description: 'Ксеноновая лампа D2S, 35W, 6000K', image: 'https://via.placeholder.com/300x200?text=Xenon+Bulb', categories: ['Освещение'], carBrands: ['Toyota', 'Volkswagen', 'BMW', 'Mercedes', 'Audi'], stock: 30 },
+                // Ксенон для всех марок (Оснащение + все марки + Osram)
+                { name: 'Лампа ксеноновая D2S 6000K', price: 2400, brand: 'Osram', article: 'OSR-D2S', description: 'Ксеноновая лампа D2S, 35W, 6000K', image: 'https://via.placeholder.com/300x200?text=Xenon+Bulb', categories: ['Оснащение'], carBrands: ['Toyota', 'Volkswagen', 'BMW', 'Mercedes', 'Audi'], stock: 30 },
                 // Ремень ГРМ для VW/Audi (Двигатель + VW, Audi + Gates)
                 { name: 'Ремень ГРМ комплект VW Passat', price: 5500, brand: 'Gates', article: 'GAT-KIT-01', description: 'Комплект ремня ГРМ для Volkswagen Passat B5', image: 'https://via.placeholder.com/300x200?text=Timing+Belt', categories: ['Двигатель'], carBrands: ['Volkswagen', 'Audi'], stock: 7 },
                 // Тормозные диски для Mercedes (Тормозная система + Mercedes + Brembo)
@@ -2088,7 +2088,7 @@
                 'Масла и жидкости': 'fa-oil-can',
                 'Фильтры': 'fa-filter',
                 'Тормозная система': 'fa-tachometer-alt',
-                'Освещение': 'fa-lightbulb',
+                'Оснащение': 'fa-lightbulb',
                 'Аккумуляторы': 'fa-car-battery',
                 'Двигатель': 'fa-cogs',
                 'Ходовая часть': 'fa-wrench',
