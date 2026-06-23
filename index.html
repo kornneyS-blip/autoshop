@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>авто-запчасть - Магазин автозапчастей</title>
-    <!-- Font Awesome с несколькими источниками для надежности -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* Все стили остаются без изменений */
         * {
             margin: 0;
             padding: 0;
@@ -84,6 +81,10 @@
             color: #2c3e50;
             font-weight: 600;
         }
+        .form-group .required {
+            color: #e74c3c;
+            margin-left: 3px;
+        }
         .form-control {
             width: 100%;
             padding: 12px 15px;
@@ -96,6 +97,14 @@
             border-color: #3498db;
             outline: none;
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-row .full-width {
+            grid-column: 1 / -1;
         }
         .btn {
             display: block;
@@ -174,6 +183,85 @@
             margin-bottom: 20px;
             text-align: center;
             display: none;
+        }
+
+        .image-upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 6px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            background: #fafafa;
+        }
+        .image-upload-area:hover {
+            border-color: #3498db;
+            background: #f0f7ff;
+        }
+        .image-upload-area.dragover {
+            border-color: #27ae60;
+            background: #e8f5e9;
+        }
+        .image-upload-area i {
+            font-size: 3rem;
+            color: #bdc3c7;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .image-upload-area p {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+        .image-upload-area input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .image-preview {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .image-preview-item {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 2px solid #ddd;
+            background: #f8f9fa;
+        }
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .image-preview-item .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .image-preview-item .remove-image:hover {
+            background: #c0392b;
+            transform: scale(1.1);
         }
 
         .header-top {
@@ -676,7 +764,6 @@
             flex-wrap: wrap;
         }
 
-        /* Стили для заказов */
         .order-item {
             border: 1px solid #ddd;
             padding: 15px;
@@ -759,6 +846,23 @@
             border-color: #3498db;
         }
 
+        .order-address {
+            margin: 10px 0;
+            padding: 10px;
+            background: #e8f4fd;
+            border-radius: 4px;
+            border-left: 3px solid #3498db;
+        }
+        .order-address strong {
+            display: block;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .order-address span {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
         .cart-item {
             display: flex;
             align-items: center;
@@ -826,6 +930,77 @@
             color: #bdc3c7;
         }
 
+        #orderModal .modal-content {
+            max-width: 600px;
+        }
+        .delivery-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .delivery-info h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .delivery-info h4 i {
+            color: #3498db;
+        }
+        .delivery-info p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .category-checkboxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+        .category-checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        .category-checkbox-item:hover {
+            background: #e3f2fd;
+        }
+        .category-checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #3498db;
+        }
+        .category-checkbox-item label {
+            cursor: pointer;
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 0.95rem;
+        }
+        .select-all-btn {
+            padding: 5px 15px;
+            font-size: 0.85rem;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .select-all-btn:hover {
+            background: #2980b9;
+        }
+
         .footer {
             background-color: #2c3e50;
             color: white;
@@ -884,6 +1059,9 @@
             .modal-content { padding: 25px; margin: 10% auto; width: 95%; }
             .products-header { flex-direction: column; gap: 15px; }
             .order-header { flex-direction: column; align-items: flex-start; }
+            .form-row { grid-template-columns: 1fr; }
+            .category-checkboxes { grid-template-columns: 1fr 1fr; }
+            .image-preview-item { width: 80px; height: 80px; }
         }
     </style>
 </head>
@@ -957,7 +1135,6 @@
             <span class="close-modal" onclick="closeModal('profileModal')">&times;</span>
             <h2>Личный кабинет</h2>
             
-            <!-- Вкладки для пользователя -->
             <div style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px; flex-wrap: wrap;">
                 <button class="admin-tab active" onclick="showProfileTab('info')" id="profileTabInfo">
                     <i class="fas fa-user"></i> Мои данные
@@ -965,44 +1142,28 @@
                 <button class="admin-tab" onclick="showProfileTab('orders')" id="profileTabOrders">
                     <i class="fas fa-clipboard-list"></i> Мои заказы
                 </button>
-                <!-- Админская вкладка (видна только админу) -->
                 <button class="admin-tab" onclick="showProfileTab('admin')" id="profileTabAdmin" style="display: none; background: #27ae60; color: white;">
                     <i class="fas fa-cog"></i> Управление заказами
                 </button>
             </div>
             
-            <!-- Вкладка "Мои данные" -->
             <div id="profileTabInfoContent" class="profile-tab-content">
                 <div id="profileInfo">
-                    <div class="form-group">
-                        <label>Имя:</label>
-                        <div id="profileName" class="form-control" style="background-color: #f8f9fa;"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>Email:</label>
-                        <div id="profileEmail" class="form-control" style="background-color: #f8f9fa;"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>Телефон:</label>
-                        <div id="profilePhone" class="form-control" style="background-color: #f8f9fa;"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>Дата регистрации:</label>
-                        <div id="profileDate" class="form-control" style="background-color: #f8f9fa;"></div>
-                    </div>
+                    <div class="form-group"><label>Имя:</label><div id="profileName" class="form-control" style="background-color: #f8f9fa;"></div></div>
+                    <div class="form-group"><label>Email:</label><div id="profileEmail" class="form-control" style="background-color: #f8f9fa;"></div></div>
+                    <div class="form-group"><label>Телефон:</label><div id="profilePhone" class="form-control" style="background-color: #f8f9fa;"></div></div>
+                    <div class="form-group"><label>Дата регистрации:</label><div id="profileDate" class="form-control" style="background-color: #f8f9fa;"></div></div>
                     <button type="button" class="btn" onclick="logout()" style="background-color: #e74c3c; margin-top: 20px;">
                         <i class="fas fa-sign-out-alt"></i> Выйти
                     </button>
                 </div>
             </div>
             
-            <!-- Вкладка "Мои заказы" (для всех пользователей) -->
             <div id="profileTabOrdersContent" class="profile-tab-content" style="display: none;">
                 <h3 style="color: #2c3e50; margin-bottom: 20px;"><i class="fas fa-clipboard-list"></i> Мои заказы</h3>
                 <div id="userOrdersList"></div>
             </div>
             
-            <!-- Вкладка "Управление заказами" (только для админа) -->
             <div id="profileTabAdminContent" class="profile-tab-content" style="display: none;">
                 <h3 style="color: #2c3e50; margin-bottom: 20px;"><i class="fas fa-cog"></i> Управление заказами (Админ)</h3>
                 <div id="adminOrdersList"></div>
@@ -1010,7 +1171,6 @@
         </div>
     </div>
 
-    <!-- Модальное окно корзины -->
     <div id="cartModal" class="modal" style="z-index: 9999;">
         <div class="modal-content" style="max-width: 700px; z-index: 10000;">
             <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
@@ -1018,12 +1178,75 @@
             <div id="cartItems" style="margin: 20px 0;"></div>
             <div class="cart-total">
                 <span>Итого: <span id="cartTotal">0</span> ₽</span>
-                <button class="btn" onclick="checkout()" style="width: auto; padding: 10px 30px;">Оформить заказ</button>
+                <button class="btn" onclick="openOrderForm()" style="width: auto; padding: 10px 30px;">
+                    <i class="fas fa-truck"></i> Оформить заказ
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Верхняя шапка -->
+    <div id="orderModal" class="modal" style="z-index: 9999;">
+        <div class="modal-content" style="max-width: 600px; z-index: 10000;">
+            <span class="close-modal" onclick="closeModal('orderModal')">&times;</span>
+            <h2><i class="fas fa-truck"></i> Оформление заказа</h2>
+            
+            <div class="delivery-info">
+                <h4><i class="fas fa-map-marker-alt"></i> Адрес доставки</h4>
+                <p>Заполните все поля для доставки заказа</p>
+            </div>
+            
+            <form id="orderForm">
+                <div class="form-group">
+                    <label for="orderCity">Город <span class="required">*</span></label>
+                    <input type="text" id="orderCity" class="form-control" placeholder="Введите город" required>
+                    <div id="orderCityError" class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="orderStreet">Улица <span class="required">*</span></label>
+                    <input type="text" id="orderStreet" class="form-control" placeholder="Введите улицу" required>
+                    <div id="orderStreetError" class="error-message"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="orderHouse">Дом <span class="required">*</span></label>
+                        <input type="text" id="orderHouse" class="form-control" placeholder="Номер дома" required>
+                        <div id="orderHouseError" class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderApartment">Квартира</label>
+                        <input type="text" id="orderApartment" class="form-control" placeholder="Номер квартиры">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="orderEntrance">Подъезд</label>
+                        <input type="text" id="orderEntrance" class="form-control" placeholder="Номер подъезда">
+                    </div>
+                    <div class="form-group">
+                        <label for="orderFloor">Этаж</label>
+                        <input type="text" id="orderFloor" class="form-control" placeholder="Номер этажа">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="orderComment">Комментарий к заказу</label>
+                    <textarea id="orderComment" class="form-control" rows="2" placeholder="Дополнительная информация по доставке"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="orderPhone">Контактный телефон <span class="required">*</span></label>
+                    <input type="tel" id="orderPhone" class="form-control" placeholder="+7 (999) 999-99-99" required>
+                    <div id="orderPhoneError" class="error-message"></div>
+                </div>
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button type="button" class="btn" onclick="closeModal('orderModal')" style="background-color: #95a5a6;">Отмена</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check"></i> Подтвердить заказ
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Шапка -->
     <div class="header-top">
         <div class="container">
             <div id="userInfo" class="user-info" style="display: none;">
@@ -1132,7 +1355,7 @@
         </div>
     </div>
 
-    <!-- Админ-панель товаров -->
+    <!-- Админ-панель -->
     <div id="adminPanel" class="container" style="display: none;">
         <div class="admin-panel">
             <h3><i class="fas fa-cog"></i> Панель управления товарами</h3>
@@ -1143,20 +1366,46 @@
             </div>
             <div id="adminTabAdd" class="admin-tab-content">
                 <form id="addProductForm" class="admin-form">
-                    <div class="form-group"><label>Название товара *</label><input type="text" id="productName" class="form-control" required></div>
-                    <div class="form-group"><label>Цена *</label><input type="number" id="productPrice" class="form-control" required></div>
+                    <div class="form-group"><label>Название товара <span class="required">*</span></label><input type="text" id="productName" class="form-control" required></div>
+                    <div class="form-group"><label>Цена <span class="required">*</span></label><input type="number" id="productPrice" class="form-control" required></div>
                     <div class="form-group"><label>Бренд</label><input type="text" id="productBrand" class="form-control" value="Оригинал"></div>
                     <div class="form-group"><label>Артикул</label><input type="text" id="productArticle" class="form-control"></div>
                     <div class="form-group full-width"><label>Описание</label><textarea id="productDescription" class="form-control" rows="3"></textarea></div>
-                    <div class="form-group full-width"><label>Ссылка на изображение</label><input type="url" id="productImage" class="form-control" placeholder="https://..."></div>
-                    <div class="form-group"><label>Категория</label>
-                        <select id="productCategory" class="form-control">
-                            <option value="engine">Двигатель</option><option value="brakes">Тормозная система</option>
-                            <option value="filters">Фильтры</option><option value="oils">Масла</option>
-                            <option value="electrics">Электрика</option><option value="suspension">Подвеска</option>
-                        </select>
+                    
+                    <!-- Загрузка изображения -->
+                    <div class="form-group full-width">
+                        <label>Изображение товара</label>
+                        <div class="image-upload-area" id="imageUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Нажмите или перетащите изображение</p>
+                            <p style="font-size: 0.8rem; color: #aaa;">Поддерживаются JPG, PNG, GIF, WebP (макс. 2MB)</p>
+                            <input type="file" id="imageUploadInput" accept="image/*">
+                        </div>
+                        <div id="imagePreview" class="image-preview"></div>
                     </div>
-                    <div class="form-group"><label>Наличие (шт.)</label><input type="number" id="productStock" class="form-control" value="10"></div>
+                    
+                    <div class="form-group full-width">
+                        <label>Категории товара <span class="required">*</span></label>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+                            <span style="font-size: 0.9rem; color: #7f8c8d;">Выберите категории, в которых будет отображаться товар</span>
+                            <button type="button" class="select-all-btn" onclick="toggleAllCategories()">Выбрать все</button>
+                        </div>
+                        <div class="category-checkboxes" id="categoryCheckboxes">
+                            <div class="category-checkbox-item"><input type="checkbox" id="cat-masla" value="Масла и жидкости"><label for="cat-masla">Масла и жидкости</label></div>
+                            <div class="category-checkbox-item"><input type="checkbox" id="cat-filtry" value="Фильтры"><label for="cat-filtry">Фильтры</label></div>
+                            <div class="category-checkbox-item"><input type="checkbox" id="cat-tormoza" value="Тормозная система"><label for="cat-tormoza">Тормозная система</label></div>
+                            <div class="category-checkbox-item"><input type="checkbox" id="cat-osveshchenie" value="Освещение"><label for="cat-osveshchenie">Освещение</label></div>
+                            <div class="category-checkbox-item"><input type="checkbox" id="cat-akkumulyatory" value="Аккумуляторы"><label for="cat-akkumulyatory">Аккумуляторы</label></div>
+                            <div class="category-checkbox-item"><input type="checkbox" id="cat-dvigatel" value="Двигатель"><label for="cat-dvigatel">Двигатель</label></div>
+                            <div class="category-checkbox-item"><input type="checkbox" id="cat-hodovaya" value="Ходовая часть"><label for="cat-hodovaya">Ходовая часть</label></div>
+                            <div class="category-checkbox-item"><input type="checkbox" id="cat-elektrika" value="Электрика"><label for="cat-elektrika">Электрика</label></div>
+                            <div class="category-checkbox-item"><input type="checkbox" id="cat-kuzov" value="Кузовные детали"><label for="cat-kuzov">Кузовные детали</label></div>
+                            <div class="category-checkbox-item"><input type="checkbox" id="cat-instrumenty" value="Инструменты"><label for="cat-instrumenty">Инструменты</label></div>
+                        </div>
+                        <div id="categoryError" class="error-message"></div>
+                    </div>
+                    
+                    <div class="form-group"><label>Количество (шт.)</label><input type="number" id="productStock" class="form-control" value="10"></div>
                     <div class="form-group full-width"><button type="submit" class="btn"><i class="fas fa-save"></i> Сохранить товар</button></div>
                 </form>
             </div>
@@ -1201,7 +1450,7 @@
     </footer>
 
     <script>
-        // --- Класс управления товарами ---
+        // ========== ОСНОВНЫЕ КЛАССЫ ==========
         class ProductManager {
             constructor() {
                 this.products = JSON.parse(localStorage.getItem('autoparts_products')) || [];
@@ -1217,7 +1466,7 @@
                     article: data.article || `ART-${Date.now()}`,
                     description: data.description || 'Нет описания',
                     image: data.image || 'https://via.placeholder.com/300x200?text=AutoPart',
-                    category: data.category || 'other',
+                    categories: data.categories || ['Все товары'],
                     stock: parseInt(data.stock) || 10,
                     dateAdded: new Date().toLocaleDateString('ru-RU')
                 };
@@ -1235,7 +1484,6 @@
             getAllProducts() { return this.products; }
         }
 
-        // --- Пользователи ---
         class UserStorage {
             constructor() {
                 this.users = JSON.parse(localStorage.getItem('autoparts_users')) || [];
@@ -1245,14 +1493,7 @@
             saveCurrentUser() { localStorage.setItem('autoparts_currentUser', JSON.stringify(this.currentUser)); }
             registerUser(name, email, phone, password) {
                 if (this.users.some(u => u.email === email)) return { success: false, message: 'Пользователь с таким email уже существует' };
-                const newUser = { 
-                    name, 
-                    email, 
-                    phone, 
-                    password, 
-                    registrationDate: new Date().toLocaleDateString('ru-RU'),
-                    role: 'user'
-                };
+                const newUser = { name, email, phone, password, registrationDate: new Date().toLocaleDateString('ru-RU'), role: 'user' };
                 this.users.push(newUser);
                 this.saveUsers();
                 return { success: true, user: newUser };
@@ -1268,18 +1509,15 @@
                 return { success: false, message: 'Неверный email или пароль' };
             }
             logoutUser() { this.currentUser = null; this.saveCurrentUser(); }
-            isAdmin() {
-                return this.currentUser && this.currentUser.email === 'admin@admin.com';
-            }
+            isAdmin() { return this.currentUser && this.currentUser.email === 'admin@admin.com'; }
         }
 
-        // --- Управление заказами ---
         class OrderManager {
             constructor() {
                 this.orders = JSON.parse(localStorage.getItem('autoparts_orders')) || [];
             }
             saveOrders() { localStorage.setItem('autoparts_orders', JSON.stringify(this.orders)); }
-            createOrder(items, total, user) {
+            createOrder(items, total, user, address, phone, comment) {
                 const order = {
                     id: Date.now(),
                     items: items,
@@ -1287,7 +1525,10 @@
                     status: 'ожидает подтверждения',
                     date: new Date().toLocaleString('ru-RU'),
                     user: user ? user.email : 'Гость',
-                    userName: user ? user.name : 'Гость'
+                    userName: user ? user.name : 'Гость',
+                    address: address,
+                    phone: phone,
+                    comment: comment || ''
                 };
                 this.orders.push(order);
                 this.saveOrders();
@@ -1304,17 +1545,15 @@
                 this.saveOrders();
                 return true;
             }
-            getOrdersByUser(email) {
-                return this.orders.filter(o => o.user === email);
-            }
+            getOrdersByUser(email) { return this.orders.filter(o => o.user === email); }
         }
 
-        // --- Инициализация ---
+        // ========== ИНИЦИАЛИЗАЦИЯ ==========
         const productManager = new ProductManager();
         const userStorage = new UserStorage();
         const orderManager = new OrderManager();
 
-        // Создаем админа при первом запуске
+        // Создаем админа
         if (!userStorage.users.some(u => u.email === 'admin@admin.com')) {
             userStorage.registerUser('Администратор', 'admin@admin.com', '+7 (999) 999-99-99', 'admin123');
         }
@@ -1322,45 +1561,115 @@
         // Демо-товары
         if (productManager.getAllProducts().length === 0) {
             const demo = [
-                { name: 'Тормозные колодки передние', price: 4500, brand: 'Brembo', article: 'BR-P123', description: 'Оригинальные тормозные колодки для Toyota Camry 2018-2022', image: 'https://via.placeholder.com/300x200?text=Brake+Pads', category: 'brakes', stock: 15 },
-                { name: 'Масло моторное 5W-40', price: 3200, brand: 'Shell Helix', article: 'SH-5W40-4L', description: 'Синтетическое моторное масло, 4 литра', image: 'https://via.placeholder.com/300x200?text=Oil', category: 'oils', stock: 25 },
-                { name: 'Фильтр масляный', price: 850, brand: 'MANN', article: 'MN-W914', description: 'Масляный фильтр для большинства моделей Volkswagen', image: 'https://via.placeholder.com/300x200?text=Oil+Filter', category: 'filters', stock: 50 },
-                { name: 'Аккумулятор 60Ah', price: 6800, brand: 'Varta', article: 'VAR-560', description: 'Автомобильный аккумулятор 60Ah, пусковой ток 540A', image: 'https://via.placeholder.com/300x200?text=Battery', category: 'electrics', stock: 8 }
+                { name: 'Тормозные колодки передние', price: 4500, brand: 'Brembo', article: 'BR-P123', description: 'Оригинальные тормозные колодки для Toyota Camry 2018-2022', image: 'https://via.placeholder.com/300x200?text=Brake+Pads', categories: ['Тормозная система', 'Все товары'], stock: 15 },
+                { name: 'Масло моторное 5W-40', price: 3200, brand: 'Shell Helix', article: 'SH-5W40-4L', description: 'Синтетическое моторное масло, 4 литра', image: 'https://via.placeholder.com/300x200?text=Oil', categories: ['Масла и жидкости', 'Все товары'], stock: 25 },
+                { name: 'Фильтр масляный', price: 850, brand: 'MANN', article: 'MN-W914', description: 'Масляный фильтр для большинства моделей Volkswagen', image: 'https://via.placeholder.com/300x200?text=Oil+Filter', categories: ['Фильтры', 'Все товары'], stock: 50 },
+                { name: 'Аккумулятор 60Ah', price: 6800, brand: 'Varta', article: 'VAR-560', description: 'Автомобильный аккумулятор 60Ah, пусковой ток 540A', image: 'https://via.placeholder.com/300x200?text=Battery', categories: ['Аккумуляторы', 'Все товары'], stock: 8 }
             ];
             demo.forEach(p => productManager.addProduct(p));
         }
 
-        // DOM
-        const userInfo = document.getElementById('userInfo');
-        const guestActions = document.getElementById('guestActions');
-        const displayUserName = document.getElementById('displayUserName');
+        // ========== ПЕРЕМЕННЫЕ ДЛЯ КАРТИНОК ==========
+        let uploadedImage = null;
 
-        // --- Маска телефона ---
-        function phoneMask(input) {
-            let value = input.value.replace(/\D/g, '');
-            if (value.length === 0) { input.value = '+7 ('; return; }
-            if (value[0] !== '7' && value[0] !== '8') { value = '7' + value; }
-            if (value[0] === '8') { value = '7' + value.slice(1); }
-            let formatted = '+7 (';
-            if (value.length > 1) { formatted += value.slice(1, 4); }
-            if (value.length > 4) { formatted += ') ' + value.slice(4, 7); }
-            if (value.length > 7) { formatted += '-' + value.slice(7, 9); }
-            if (value.length > 9) { formatted += '-' + value.slice(9, 11); }
-            input.value = formatted;
+        // ========== ФУНКЦИИ РАБОТЫ С КАРТИНКАМИ ==========
+        function handleImageUpload(file) {
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+                alert('Пожалуйста, выберите изображение!');
+                return;
+            }
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Изображение слишком большое! Максимум 2MB.');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedImage = e.target.result;
+                showImagePreview(uploadedImage);
+            };
+            reader.readAsDataURL(file);
         }
 
-        document.getElementById('registerPhone').addEventListener('input', function() { phoneMask(this); });
-        document.getElementById('registerPhone').addEventListener('focus', function() { if (this.value === '') { this.value = '+7 ('; } });
-        document.getElementById('registerPhone').addEventListener('blur', function() { if (this.value === '+7 (' || this.value === '+7 (') { this.value = ''; } });
+        function showImagePreview(imageData) {
+            const previewContainer = document.getElementById('imagePreview');
+            if (!previewContainer) return;
+            previewContainer.innerHTML = `
+                <div class="image-preview-item">
+                    <img src="${imageData}" alt="Превью товара">
+                    <button class="remove-image" onclick="removeImage()" title="Удалить изображение">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+        }
 
-        // --- Переключение вкладок в личном кабинете ---
+        function removeImage() {
+            uploadedImage = null;
+            document.getElementById('imagePreview').innerHTML = '';
+            document.getElementById('imageUploadInput').value = '';
+        }
+
+        function toggleAllCategories() {
+            const checkboxes = document.querySelectorAll('#categoryCheckboxes input[type="checkbox"]');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            checkboxes.forEach(cb => cb.checked = !allChecked);
+        }
+
+        // ========== ФУНКЦИИ АВТОРИЗАЦИИ ==========
+        function updateAuthUI() {
+            if (userStorage.currentUser) {
+                document.getElementById('userInfo').style.display = 'flex';
+                document.getElementById('guestActions').style.display = 'none';
+                document.getElementById('displayUserName').textContent = `Привет, ${userStorage.currentUser.name}!`;
+                document.getElementById('adminToggleBtn').style.display = userStorage.isAdmin() ? 'flex' : 'none';
+                document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                    btn.classList.remove('disabled-btn');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-shopping-cart"></i> В корзину';
+                });
+            } else {
+                document.getElementById('userInfo').style.display = 'none';
+                document.getElementById('guestActions').style.display = 'flex';
+                document.getElementById('adminToggleBtn').style.display = 'flex';
+                document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                    btn.classList.add('disabled-btn');
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fas fa-lock"></i> Войдите в аккаунт';
+                });
+            }
+            updateCartCount();
+        }
+
+        function showModal(id) { closeAllModals(); document.getElementById(id).style.display = 'block'; document.body.style.overflow = 'hidden'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.style.overflow = 'auto'; }
+        function closeAllModals() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); document.body.style.overflow = 'auto'; }
+        function showLogin() { showModal('loginModal'); }
+        function showRegister() { closeModal('loginModal'); showModal('registerModal'); }
+
+        function showProfile() {
+            if (userStorage.currentUser) {
+                document.getElementById('profileName').textContent = userStorage.currentUser.name;
+                document.getElementById('profileEmail').textContent = userStorage.currentUser.email;
+                document.getElementById('profilePhone').textContent = userStorage.currentUser.phone;
+                document.getElementById('profileDate').textContent = userStorage.currentUser.registrationDate;
+                document.getElementById('profileTabAdmin').style.display = userStorage.isAdmin() ? 'inline-block' : 'none';
+                showProfileTab('info');
+                showModal('profileModal');
+            } else { showLogin(); }
+        }
+
+        function logout() { userStorage.logoutUser(); updateAuthUI(); loadProducts(); closeModal('profileModal'); document.getElementById('adminPanel').style.display = 'none'; document.querySelector('.products-section').style.opacity = '1'; }
+        function showSuccess(modalId, msg) { const el = document.getElementById(modalId).querySelector('.success-message'); if (el) { el.textContent = msg; el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 3000); } }
+        function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+        function validatePhone(p) { const digits = p.replace(/\D/g, ''); return digits.length === 11 && digits[0] === '7'; }
+        function showError(id, msg) { const el = document.getElementById(id); if (el) { el.textContent = msg; el.style.display = 'block'; } }
+        function hideError(id) { const el = document.getElementById(id); if (el) el.style.display = 'none'; }
+
+        // ========== ФУНКЦИИ ПРОФИЛЯ ==========
         function showProfileTab(tabName) {
-            // Скрываем все вкладки
             document.querySelectorAll('.profile-tab-content').forEach(t => t.style.display = 'none');
-            // Убираем активный класс у всех кнопок
             document.querySelectorAll('#profileModal .admin-tab').forEach(t => t.classList.remove('active'));
-            
-            // Показываем нужную вкладку
             if (tabName === 'info') {
                 document.getElementById('profileTabInfoContent').style.display = 'block';
                 document.getElementById('profileTabInfo').classList.add('active');
@@ -1375,39 +1684,29 @@
             }
         }
 
-        // --- Загрузка заказов пользователя ---
+        // ========== ФУНКЦИИ ЗАКАЗОВ ==========
         function loadUserOrders() {
             const container = document.getElementById('userOrdersList');
             const user = userStorage.currentUser;
-            if (!user) { 
-                container.innerHTML = '<p style="text-align:center;color:#7f8c8d;padding:30px 0;">Войдите в аккаунт</p>'; 
-                return;
-            }
-            
+            if (!user) { container.innerHTML = '<p style="text-align:center;color:#7f8c8d;padding:30px 0;">Войдите в аккаунт</p>'; return; }
             const orders = orderManager.getOrdersByUser(user.email);
             if (orders.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align:center;color:#7f8c8d;padding:30px 0;">
-                        <i class="fas fa-clipboard-list" style="font-size:3rem;display:block;margin-bottom:15px;color:#bdc3c7;"></i>
-                        У вас пока нет заказов
-                    </div>
-                `;
+                container.innerHTML = `<div style="text-align:center;color:#7f8c8d;padding:30px 0;"><i class="fas fa-clipboard-list" style="font-size:3rem;display:block;margin-bottom:15px;color:#bdc3c7;"></i>У вас пока нет заказов</div>`;
                 return;
             }
-            
             let html = '';
             orders.forEach(o => {
                 const statusClass = o.status === 'ожидает подтверждения' ? 'status-pending' : o.status === 'в пути' ? 'status-shipped' : 'status-delivered';
                 const statusText = o.status === 'ожидает подтверждения' ? 'Ожидает подтверждения' : o.status === 'в пути' ? 'В пути' : 'Доставлен';
-                
                 html += `
                     <div class="order-item">
-                        <div class="order-header">
-                            <strong>Заказ #${o.id}</strong>
-                            <span class="order-date">${o.date}</span>
-                        </div>
-                        <div class="order-items">
-                            ${o.items.map(i => `<div>${i.name} x ${i.quantity} = ${(i.price * i.quantity).toLocaleString()} ₽</div>`).join('')}
+                        <div class="order-header"><strong>Заказ #${o.id}</strong><span class="order-date">${o.date}</span></div>
+                        <div class="order-items">${o.items.map(i => `<div>${i.name} x ${i.quantity} = ${(i.price * i.quantity).toLocaleString()} ₽</div>`).join('')}</div>
+                        <div class="order-address">
+                            <strong><i class="fas fa-map-marker-alt"></i> Адрес доставки:</strong>
+                            <span>г. ${o.address.city}, ул. ${o.address.street}, д. ${o.address.house}${o.address.apartment ? ', кв. ' + o.address.apartment : ''}${o.address.entrance ? ', подъезд ' + o.address.entrance : ''}${o.address.floor ? ', этаж ' + o.address.floor : ''}</span>
+                            ${o.comment ? `<div style="margin-top:5px;"><strong>Комментарий:</strong> ${o.comment}</div>` : ''}
+                            <div style="margin-top:5px;"><strong>Телефон:</strong> ${o.phone}</div>
                         </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:10px;">
                             <span class="order-total">Итого: ${o.total.toLocaleString()} ₽</span>
@@ -1419,35 +1718,26 @@
             container.innerHTML = html;
         }
 
-        // --- Загрузка заказов для админа (с управлением) ---
         function loadAdminOrders() {
             const container = document.getElementById('adminOrdersList');
             const orders = orderManager.getOrders();
-            
             if (orders.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align:center;color:#7f8c8d;padding:30px 0;">
-                        <i class="fas fa-clipboard-list" style="font-size:3rem;display:block;margin-bottom:15px;color:#bdc3c7;"></i>
-                        Нет заказов для управления
-                    </div>
-                `;
+                container.innerHTML = `<div style="text-align:center;color:#7f8c8d;padding:30px 0;"><i class="fas fa-clipboard-list" style="font-size:3rem;display:block;margin-bottom:15px;color:#bdc3c7;"></i>Нет заказов для управления</div>`;
                 return;
             }
-            
             let html = '';
             orders.forEach(o => {
                 const statusClass = o.status === 'ожидает подтверждения' ? 'status-pending' : o.status === 'в пути' ? 'status-shipped' : 'status-delivered';
                 const statusText = o.status === 'ожидает подтверждения' ? 'Ожидает подтверждения' : o.status === 'в пути' ? 'В пути' : 'Доставлен';
-                
                 html += `
                     <div class="order-item" id="order-${o.id}">
-                        <div class="order-header">
-                            <strong>Заказ #${o.id}</strong>
-                            <span class="order-date">${o.date}</span>
-                            <span class="order-user">👤 ${o.userName || o.user}</span>
-                        </div>
-                        <div class="order-items">
-                            ${o.items.map(i => `<div>${i.name} x ${i.quantity} = ${(i.price * i.quantity).toLocaleString()} ₽</div>`).join('')}
+                        <div class="order-header"><strong>Заказ #${o.id}</strong><span class="order-date">${o.date}</span><span class="order-user">👤 ${o.userName || o.user}</span></div>
+                        <div class="order-items">${o.items.map(i => `<div>${i.name} x ${i.quantity} = ${(i.price * i.quantity).toLocaleString()} ₽</div>`).join('')}</div>
+                        <div class="order-address">
+                            <strong><i class="fas fa-map-marker-alt"></i> Адрес доставки:</strong>
+                            <span>г. ${o.address.city}, ул. ${o.address.street}, д. ${o.address.house}${o.address.apartment ? ', кв. ' + o.address.apartment : ''}${o.address.entrance ? ', подъезд ' + o.address.entrance : ''}${o.address.floor ? ', этаж ' + o.address.floor : ''}</span>
+                            ${o.comment ? `<div style="margin-top:5px;"><strong>Комментарий:</strong> ${o.comment}</div>` : ''}
+                            <div style="margin-top:5px;"><strong>Телефон:</strong> ${o.phone}</div>
                         </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:10px;">
                             <span class="order-total">Итого: ${o.total.toLocaleString()} ₽</span>
@@ -1460,9 +1750,7 @@
                                     <option value="в пути" ${o.status === 'в пути' ? 'selected' : ''}>В пути</option>
                                     <option value="доставлен" ${o.status === 'доставлен' ? 'selected' : ''}>Доставлен</option>
                                 </select>
-                                <button class="btn-sm btn-danger" onclick="adminDeleteOrder(${o.id})">
-                                    <i class="fas fa-trash"></i> Удалить
-                                </button>
+                                <button class="btn-sm btn-danger" onclick="adminDeleteOrder(${o.id})"><i class="fas fa-trash"></i> Удалить</button>
                             </div>
                         </div>
                     </div>
@@ -1471,138 +1759,46 @@
             container.innerHTML = html;
         }
 
-        // --- Админ: обновление статуса ---
         function adminUpdateStatus(orderId, newStatus) {
             if (orderManager.updateStatus(orderId, newStatus)) {
-                // Обновляем список
                 loadAdminOrders();
-                // Если пользователь смотрит свои заказы, обновляем и их
-                if (document.getElementById('profileTabOrdersContent').style.display !== 'none') {
-                    loadUserOrders();
-                }
+                if (document.getElementById('profileTabOrdersContent').style.display !== 'none') loadUserOrders();
                 showSuccess('profileModal', 'Статус заказа обновлен!');
             }
         }
 
-        // --- Админ: удаление заказа ---
         function adminDeleteOrder(orderId) {
             if (confirm('Вы уверены, что хотите удалить заказ #' + orderId + '?')) {
                 if (orderManager.deleteOrder(orderId)) {
                     loadAdminOrders();
-                    if (document.getElementById('profileTabOrdersContent').style.display !== 'none') {
-                        loadUserOrders();
-                    }
+                    if (document.getElementById('profileTabOrdersContent').style.display !== 'none') loadUserOrders();
                     showSuccess('profileModal', 'Заказ удален!');
                 }
             }
         }
 
-        // --- UI Функции ---
-        function updateAuthUI() {
-            if (userStorage.currentUser) {
-                userInfo.style.display = 'flex';
-                guestActions.style.display = 'none';
-                displayUserName.textContent = `Привет, ${userStorage.currentUser.name}!`;
-                
-                const adminBtn = document.getElementById('adminToggleBtn');
-                if (userStorage.isAdmin()) {
-                    adminBtn.style.display = 'flex';
-                } else {
-                    adminBtn.style.display = 'none';
-                }
-                
-                document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-                    btn.classList.remove('disabled-btn');
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-shopping-cart"></i> В корзину';
-                });
-            } else {
-                userInfo.style.display = 'none';
-                guestActions.style.display = 'flex';
-                document.getElementById('adminToggleBtn').style.display = 'flex';
-                document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-                    btn.classList.add('disabled-btn');
-                    btn.disabled = true;
-                    btn.innerHTML = '<i class="fas fa-lock"></i> Войдите в аккаунт';
-                });
-            }
-            updateCartCount();
+        // ========== МАСКА ТЕЛЕФОНА ==========
+        function phoneMask(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length === 0) { input.value = '+7 ('; return; }
+            if (value[0] !== '7' && value[0] !== '8') { value = '7' + value; }
+            if (value[0] === '8') { value = '7' + value.slice(1); }
+            let formatted = '+7 (';
+            if (value.length > 1) { formatted += value.slice(1, 4); }
+            if (value.length > 4) { formatted += ') ' + value.slice(4, 7); }
+            if (value.length > 7) { formatted += '-' + value.slice(7, 9); }
+            if (value.length > 9) { formatted += '-' + value.slice(9, 11); }
+            input.value = formatted;
         }
 
-        function showModal(id) { 
-            closeAllModals(); 
-            document.getElementById(id).style.display = 'block'; 
-            document.body.style.overflow = 'hidden';
-        }
-        function closeModal(id) { 
-            document.getElementById(id).style.display = 'none'; 
-            document.body.style.overflow = 'auto';
-        }
-        function closeAllModals() { 
-            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); 
-            document.body.style.overflow = 'auto';
-        }
-        function showLogin() { showModal('loginModal'); }
-        function showRegister() { closeModal('loginModal'); showModal('registerModal'); }
-        
-        function showProfile() { 
-            if (userStorage.currentUser) { 
-                document.getElementById('profileName').textContent = userStorage.currentUser.name; 
-                document.getElementById('profileEmail').textContent = userStorage.currentUser.email; 
-                document.getElementById('profilePhone').textContent = userStorage.currentUser.phone; 
-                document.getElementById('profileDate').textContent = userStorage.currentUser.registrationDate;
-                
-                // Показываем админскую вкладку только админу
-                const adminTab = document.getElementById('profileTabAdmin');
-                if (userStorage.isAdmin()) {
-                    adminTab.style.display = 'inline-block';
-                } else {
-                    adminTab.style.display = 'none';
-                }
-                
-                // Открываем вкладку "Мои данные" по умолчанию
-                showProfileTab('info');
-                showModal('profileModal'); 
-            } else {
-                showLogin();
-            }
-        }
-        
-        function logout() { 
-            userStorage.logoutUser(); 
-            updateAuthUI(); 
-            loadProducts();
-            closeModal('profileModal'); 
-            document.getElementById('adminPanel').style.display = 'none';
-            document.querySelector('.products-section').style.opacity = '1';
-        }
-        
-        function showSuccess(modalId, msg) { 
-            const el = document.getElementById(modalId).querySelector('.success-message'); 
-            if (el) { 
-                el.textContent = msg; 
-                el.style.display = 'block'; 
-                setTimeout(() => el.style.display = 'none', 3000); 
-            } 
-        }
-        function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
-        function validatePhone(p) { 
-            const digits = p.replace(/\D/g, '');
-            return digits.length === 11 && digits[0] === '7';
-        }
-        function showError(id, msg) { 
-            const el = document.getElementById(id); 
-            if (el) { 
-                el.textContent = msg; 
-                el.style.display = 'block'; 
-            } 
-        }
-        function hideError(id) { 
-            const el = document.getElementById(id); 
-            if (el) el.style.display = 'none'; 
-        }
+        document.getElementById('orderPhone').addEventListener('input', function() { phoneMask(this); });
+        document.getElementById('orderPhone').addEventListener('focus', function() { if (this.value === '') { this.value = '+7 ('; } });
+        document.getElementById('orderPhone').addEventListener('blur', function() { if (this.value === '+7 (' || this.value === '+7 (') { this.value = ''; } });
+        document.getElementById('registerPhone').addEventListener('input', function() { phoneMask(this); });
+        document.getElementById('registerPhone').addEventListener('focus', function() { if (this.value === '') { this.value = '+7 ('; } });
+        document.getElementById('registerPhone').addEventListener('blur', function() { if (this.value === '+7 (' || this.value === '+7 (') { this.value = ''; } });
 
-        // Регистрация
+        // ========== РЕГИСТРАЦИЯ И ВХОД ==========
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('registerName').value.trim();
@@ -1611,69 +1807,40 @@
             const password = document.getElementById('registerPassword').value;
             const confirm = document.getElementById('registerConfirmPassword').value;
             let ok = true;
-            
             if (!name) { showError('registerNameError', 'Введите имя'); ok = false; } else hideError('registerNameError');
             if (!email || !validateEmail(email)) { showError('registerEmailError', 'Введите корректный email'); ok = false; } else hideError('registerEmailError');
             if (!phone || !validatePhone(phone)) { showError('registerPhoneError', 'Введите корректный номер телефона (11 цифр)'); ok = false; } else hideError('registerPhoneError');
             if (!password || password.length < 6) { showError('registerPasswordError', 'Пароль минимум 6 символов'); ok = false; } else hideError('registerPasswordError');
             if (password !== confirm) { showError('registerConfirmPasswordError', 'Пароли не совпадают'); ok = false; } else hideError('registerConfirmPasswordError');
-            
             if (ok) {
                 const res = userStorage.registerUser(name, email, phone, password);
-                if (res.success) { 
+                if (res.success) {
                     showSuccess('registerModal', 'Регистрация успешна!');
                     const loginResult = userStorage.loginUser(email, password);
                     if (loginResult.success) {
-                        setTimeout(() => {
-                            closeModal('registerModal');
-                            updateAuthUI();
-                            loadProducts();
-                            alert('Добро пожаловать, ' + name + '! Теперь вы можете добавлять товары в корзину.');
-                            openCart();
-                        }, 1500);
+                        setTimeout(() => { closeModal('registerModal'); updateAuthUI(); loadProducts(); alert('Добро пожаловать, ' + name + '!'); openCart(); }, 1500);
                     }
-                } else {
-                    showError('registerEmailError', res.message);
-                }
+                } else { showError('registerEmailError', res.message); }
             }
         });
 
-        // Вход
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
             let ok = true;
-            
             if (!email || !validateEmail(email)) { showError('loginEmailError', 'Введите корректный email'); ok = false; } else hideError('loginEmailError');
             if (!password) { showError('loginPasswordError', 'Введите пароль'); ok = false; } else hideError('loginPasswordError');
-            
             if (ok) {
                 const res = userStorage.loginUser(email, password);
-                if (res.success) { 
-                    updateAuthUI();
-                    loadProducts();
-                    showSuccess('loginModal', 'Вход выполнен!'); 
-                    setTimeout(() => {
-                        closeModal('loginModal');
-                        if (userStorage.isAdmin()) {
-                            alert('Добро пожаловать, Администратор!');
-                        }
-                    }, 1500); 
-                } else {
-                    showError('loginPasswordError', res.message);
-                }
+                if (res.success) { updateAuthUI(); loadProducts(); showSuccess('loginModal', 'Вход выполнен!'); setTimeout(() => { closeModal('loginModal'); if (userStorage.isAdmin()) { alert('Добро пожаловать, Администратор!'); } }, 1500); }
+                else { showError('loginPasswordError', res.message); }
             }
         });
 
-        // Закрытие модальных окон по клику вне
-        window.addEventListener('click', function(e) { 
-            document.querySelectorAll('.modal').forEach(m => { 
-                if (e.target === m) closeModal(m.id); 
-            }); 
-        });
+        window.addEventListener('click', function(e) { document.querySelectorAll('.modal').forEach(m => { if (e.target === m) closeModal(m.id); }); });
 
-        // --- Корзина ---
+        // ========== КОРЗИНА ==========
         function getCart() { return JSON.parse(localStorage.getItem('autoparts_cart')) || []; }
         function saveCart(cart) { localStorage.setItem('autoparts_cart', JSON.stringify(cart)); }
         function updateCartCount() {
@@ -1683,12 +1850,7 @@
         }
 
         function addToCart(productId) {
-            if (!userStorage.currentUser) {
-                alert('Для добавления товаров в корзину необходимо войти в аккаунт!');
-                showLogin();
-                return;
-            }
-            
+            if (!userStorage.currentUser) { alert('Для добавления товаров в корзину необходимо войти в аккаунт!'); showLogin(); return; }
             const product = productManager.getProduct(productId);
             if (!product) return;
             let cart = getCart();
@@ -1704,31 +1866,15 @@
             const cart = getCart();
             const container = document.getElementById('cartItems');
             const totalSpan = document.getElementById('cartTotal');
-            
             if (cart.length === 0) {
-                container.innerHTML = `
-                    <div class="cart-empty">
-                        <i class="fas fa-shopping-basket"></i>
-                        Корзина пуста
-                        <p style="font-size: 0.9rem; margin-top: 10px;">Добавьте товары из каталога</p>
-                    </div>
-                `;
+                container.innerHTML = `<div class="cart-empty"><i class="fas fa-shopping-basket"></i> Корзина пуста<p style="font-size: 0.9rem; margin-top: 10px;">Добавьте товары из каталога</p></div>`;
                 totalSpan.textContent = '0';
             } else {
                 let html = '';
                 let total = 0;
                 cart.forEach(item => {
                     total += item.price * item.quantity;
-                    html += `
-                        <div class="cart-item">
-                            <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/60?text=AutoPart'">
-                            <div class="cart-item-info">
-                                <strong>${item.name}</strong>
-                                <span>${item.price.toLocaleString()} ₽ x ${item.quantity} = ${(item.price * item.quantity).toLocaleString()} ₽</span>
-                            </div>
-                            <button class="cart-item-remove" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button>
-                        </div>
-                    `;
+                    html += `<div class="cart-item"><img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/60?text=AutoPart'"><div class="cart-item-info"><strong>${item.name}</strong><span>${item.price.toLocaleString()} ₽ x ${item.quantity} = ${(item.price * item.quantity).toLocaleString()} ₽</span></div><button class="cart-item-remove" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button></div>`;
                 });
                 container.innerHTML = html;
                 totalSpan.textContent = total.toLocaleString();
@@ -1744,23 +1890,45 @@
             openCart();
         }
 
-        function checkout() {
+        function openOrderForm() {
             const cart = getCart();
             if (cart.length === 0) { alert('Корзина пуста'); return; }
-            if (!userStorage.currentUser) {
-                alert('Для оформления заказа необходимо войти в аккаунт!');
-                showLogin();
-                return;
+            if (!userStorage.currentUser) { alert('Для оформления заказа необходимо войти в аккаунт!'); showLogin(); return; }
+            document.getElementById('orderForm').reset();
+            document.querySelectorAll('#orderForm .error-message').forEach(el => el.style.display = 'none');
+            if (userStorage.currentUser && userStorage.currentUser.phone) {
+                document.getElementById('orderPhone').value = userStorage.currentUser.phone;
             }
-            const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-            orderManager.createOrder(cart, total, userStorage.currentUser);
-            localStorage.setItem('autoparts_cart', JSON.stringify([]));
-            updateCartCount();
-            closeModal('cartModal');
-            alert('Заказ оформлен! Статус: ожидает подтверждения.');
+            showModal('orderModal');
         }
 
-        // --- Админ: товары ---
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const city = document.getElementById('orderCity').value.trim();
+            const street = document.getElementById('orderStreet').value.trim();
+            const house = document.getElementById('orderHouse').value.trim();
+            const apartment = document.getElementById('orderApartment').value.trim();
+            const entrance = document.getElementById('orderEntrance').value.trim();
+            const floor = document.getElementById('orderFloor').value.trim();
+            const comment = document.getElementById('orderComment').value.trim();
+            const phone = document.getElementById('orderPhone').value.trim();
+            let valid = true;
+            if (!city) { showError('orderCityError', 'Введите город'); valid = false; } else hideError('orderCityError');
+            if (!street) { showError('orderStreetError', 'Введите улицу'); valid = false; } else hideError('orderStreetError');
+            if (!house) { showError('orderHouseError', 'Введите номер дома'); valid = false; } else hideError('orderHouseError');
+            if (!phone || !validatePhone(phone)) { showError('orderPhoneError', 'Введите корректный телефон (11 цифр)'); valid = false; } else hideError('orderPhoneError');
+            if (!valid) return;
+            const cart = getCart();
+            const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+            const address = { city, street, house, apartment, entrance, floor };
+            orderManager.createOrder(cart, total, userStorage.currentUser, address, phone, comment);
+            localStorage.setItem('autoparts_cart', JSON.stringify([]));
+            updateCartCount();
+            closeModal('orderModal');
+            alert('Заказ оформлен! Статус: ожидает подтверждения.');
+        });
+
+        // ========== АДМИН: ТОВАРЫ ==========
         function toggleAdminMode() {
             if (!userStorage.isAdmin()) {
                 alert('Доступно только администратору!\n\nДля входа используйте:\nEmail: admin@admin.com\nПароль: admin123');
@@ -1769,23 +1937,17 @@
             }
             const panel = document.getElementById('adminPanel');
             const section = document.querySelector('.products-section');
-            if (panel.style.display === 'none') { 
-                panel.style.display = 'block'; 
-                section.style.opacity = '0.5'; 
-                loadAdminProductsList(); 
-            } else { 
-                panel.style.display = 'none'; 
-                section.style.opacity = '1'; 
-            }
+            if (panel.style.display === 'none') { panel.style.display = 'block'; section.style.opacity = '0.5'; loadAdminProductsList(); }
+            else { panel.style.display = 'none'; section.style.opacity = '1'; }
         }
-        
+
         function showAdminTab(tabName) {
             document.querySelectorAll('.admin-tab-content').forEach(t => t.style.display = 'none');
             document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
             document.getElementById(`adminTab${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`).style.display = 'block';
             event.target.classList.add('active');
         }
-        
+
         function loadProducts() {
             const container = document.getElementById('productsContainer');
             const products = productManager.getAllProducts();
@@ -1794,12 +1956,14 @@
             products.forEach(p => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
+                const categories = p.categories ? p.categories.filter(c => c !== 'Все товары').join(', ') : '';
                 card.innerHTML = `
                     <div class="product-image"><img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x200?text=AutoPart'">${p.stock < 5 ? `<div class="product-badge">Осталось ${p.stock} шт.</div>` : ''}</div>
                     <div class="product-info">
                         <h3 class="product-name">${p.name}</h3>
                         <p class="product-description">${p.description}</p>
                         <div class="product-meta"><span class="product-brand">${p.brand}</span><span class="product-article">${p.article}</span></div>
+                        ${categories ? `<div style="font-size:0.8rem;color:#7f8c8d;margin-bottom:10px;"><i class="fas fa-tags"></i> ${categories}</div>` : ''}
                         <div class="product-price"><span class="current-price">${p.price.toLocaleString()} ₽</span></div>
                         <div class="product-actions">
                             <button class="add-to-cart-btn ${isAuth ? '' : 'disabled-btn'}" onclick="addToCart(${p.id})" ${isAuth ? '' : 'disabled'}>
@@ -1813,17 +1977,18 @@
                 container.appendChild(card);
             });
         }
-        
+
         function loadAdminProductsList() {
             const container = document.getElementById('adminProductsList');
             const products = productManager.getAllProducts();
             container.innerHTML = '';
             products.forEach(p => {
+                const categories = p.categories ? p.categories.filter(c => c !== 'Все товары').join(', ') : '';
                 const item = document.createElement('div');
                 item.className = 'admin-product-item';
                 item.innerHTML = `
-                    <div class="admin-product-preview"><img src="${p.image}" alt="${p.name}"></div>
-                    <div class="admin-product-info"><h4>${p.name}</h4><p>Арт: ${p.article} | Бренд: ${p.brand}</p></div>
+                    <div class="admin-product-preview"><img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/60?text=AutoPart'"></div>
+                    <div class="admin-product-info"><h4>${p.name}</h4><p>Арт: ${p.article} | Бренд: ${p.brand}</p><p style="font-size:0.8rem;color:#7f8c8d;">Категории: ${categories || 'Не указаны'}</p></div>
                     <div class="admin-product-price">${p.price.toLocaleString()} ₽</div>
                     <div class="admin-product-actions">
                         <button class="btn-sm" onclick="editProduct(${p.id})" style="background:#f39c12;"><i class="fas fa-edit"></i></button>
@@ -1833,12 +1998,9 @@
                 container.appendChild(item);
             });
         }
-        
+
         function editProduct(id) {
-            if (!userStorage.isAdmin()) {
-                alert('Доступно только администратору!');
-                return;
-            }
+            if (!userStorage.isAdmin()) { alert('Доступно только администратору!'); return; }
             const p = productManager.getProduct(id);
             if (!p) return;
             document.getElementById('productName').value = p.name;
@@ -1846,9 +2008,16 @@
             document.getElementById('productBrand').value = p.brand;
             document.getElementById('productArticle').value = p.article;
             document.getElementById('productDescription').value = p.description;
-            document.getElementById('productImage').value = p.image;
-            document.getElementById('productCategory').value = p.category;
             document.getElementById('productStock').value = p.stock;
+            
+            if (p.image) {
+                uploadedImage = p.image;
+                showImagePreview(p.image);
+            } else { removeImage(); }
+            
+            const checkboxes = document.querySelectorAll('#categoryCheckboxes input[type="checkbox"]');
+            checkboxes.forEach(cb => { cb.checked = p.categories && p.categories.includes(cb.value); });
+            
             toggleAdminMode();
             showAdminTab('add');
             const form = document.getElementById('addProductForm');
@@ -1856,14 +2025,17 @@
             btn.innerHTML = '<i class="fas fa-save"></i> Обновить товар';
             form.onsubmit = function(e) {
                 e.preventDefault();
+                const selectedCategories = Array.from(document.querySelectorAll('#categoryCheckboxes input[type="checkbox"]:checked')).map(cb => cb.value);
+                if (selectedCategories.length === 0) { showError('categoryError', 'Выберите хотя бы одну категорию'); return; } else hideError('categoryError');
+                const imageUrl = uploadedImage || 'https://via.placeholder.com/300x200?text=AutoPart';
                 productManager.updateProduct(id, {
                     name: document.getElementById('productName').value,
                     price: document.getElementById('productPrice').value,
                     brand: document.getElementById('productBrand').value,
                     article: document.getElementById('productArticle').value,
                     description: document.getElementById('productDescription').value,
-                    image: document.getElementById('productImage').value,
-                    category: document.getElementById('productCategory').value,
+                    image: imageUrl,
+                    categories: ['Все товары', ...selectedCategories],
                     stock: document.getElementById('productStock').value
                 });
                 setupAddProductForm();
@@ -1873,12 +2045,9 @@
                 alert('Товар обновлен!');
             };
         }
-        
+
         function deleteProduct(id) {
-            if (!userStorage.isAdmin()) {
-                alert('Доступно только администратору!');
-                return;
-            }
+            if (!userStorage.isAdmin()) { alert('Доступно только администратору!'); return; }
             if (confirm('Удалить товар?')) {
                 productManager.deleteProduct(id);
                 loadProducts();
@@ -1889,26 +2058,28 @@
                 updateCartCount();
             }
         }
-        
+
         function setupAddProductForm() {
             const form = document.getElementById('addProductForm');
             form.onsubmit = function(e) {
                 e.preventDefault();
-                if (!userStorage.isAdmin()) {
-                    alert('Доступно только администратору!');
-                    return;
-                }
+                if (!userStorage.isAdmin()) { alert('Доступно только администратору!'); return; }
+                const selectedCategories = Array.from(document.querySelectorAll('#categoryCheckboxes input[type="checkbox"]:checked')).map(cb => cb.value);
+                if (selectedCategories.length === 0) { showError('categoryError', 'Выберите хотя бы одну категорию'); return; } else hideError('categoryError');
+                const imageUrl = uploadedImage || 'https://via.placeholder.com/300x200?text=AutoPart';
                 productManager.addProduct({
                     name: document.getElementById('productName').value,
                     price: document.getElementById('productPrice').value,
                     brand: document.getElementById('productBrand').value,
                     article: document.getElementById('productArticle').value,
                     description: document.getElementById('productDescription').value,
-                    image: document.getElementById('productImage').value,
-                    category: document.getElementById('productCategory').value,
+                    image: imageUrl,
+                    categories: ['Все товары', ...selectedCategories],
                     stock: document.getElementById('productStock').value
                 });
                 form.reset();
+                removeImage();
+                document.querySelectorAll('#categoryCheckboxes input[type="checkbox"]').forEach(cb => cb.checked = false);
                 loadProducts();
                 loadAdminProductsList();
                 showAdminTab('list');
@@ -1924,8 +2095,37 @@
             document.getElementById('importResult').innerHTML = `<div style="background:#2ecc71;color:white;padding:15px;border-radius:6px;">✅ Файл "${file.name}" загружен! (имитация импорта)</div>`;
         });
 
-        // Инициализация
+        // ========== ЗАГРУЗКА КАРТИНОК (обработчик) ==========
         document.addEventListener('DOMContentLoaded', function() {
+            const uploadInput = document.getElementById('imageUploadInput');
+            if (uploadInput) {
+                uploadInput.addEventListener('change', function(e) {
+                    if (this.files && this.files[0]) {
+                        handleImageUpload(this.files[0]);
+                    }
+                });
+            }
+            
+            // Drag and Drop для области загрузки
+            const uploadArea = document.getElementById('imageUploadArea');
+            if (uploadArea) {
+                uploadArea.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('dragover');
+                });
+                uploadArea.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                });
+                uploadArea.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                        handleImageUpload(e.dataTransfer.files[0]);
+                    }
+                });
+            }
+            
             updateAuthUI();
             loadProducts();
             setupAddProductForm();
